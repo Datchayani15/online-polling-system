@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Polling Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    /* Improved background with overlay for professional look */
+    background: linear-gradient(rgba(246, 241, 241, 0.224), rgba(0,0,0,0.35)),
+                url('https://static.vecteezy.com/system/resources/previews/010/942/363/non_2x/vote-voting-and-election-concept-on-virtual-screen-polling-ballot-online-elections-electronic-voting-technology-e-ballot-check-mark-closeup-finger-about-to-press-a-button-illustration-vector.jpg') 
+                no-repeat center center fixed;
+    background-size: cover;
+}
+
+        .container {
+    background: rgba(255, 255, 255, 0.468);
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    padding: 38px 36px 28px 36px;
+    box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13), 0 1.5px 8px rgba(44, 62, 80, 0.08);
+    position: absolute;
+    top: 20px;       /* distance from top */
+    left: 20px;      /* distance from left */
+    transform: none; /* remove vertical centering */
+}
+
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            color: #084d85ea;
+        }
+        .btn {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #ffffffd1;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 0 8px;
+            box-shadow: 0 1.5px 6px rgba(52,152,219,0.10);
+            transition: background 0.18s, box-shadow 0.18s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%);
+        }
+        @media (max-width: 900px) {
+            .container {
+                position: static;
+                margin: 40px auto;
+                transform: none;
+                left: 0;
+                padding: 24px 8vw 18px 8vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to <span style="color:#1d697ed3;">Online Polling System</span></h1>
+        <p style="text-align:center; font-size:18px;">Vote, Create Polls, and See Results!</p>
+        <div style="text-align:center; margin-top:30px;">
+            <a class="btn" href="/register">Register</a>
+            <a class="btn" href="/login">Login</a>
+        </div>
+    </div>

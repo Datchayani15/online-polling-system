@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 370px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 36px 36px 28px 36px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13), 0 1.5px 8px rgba(44, 62, 80, 0.08);
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 28px;
+            color: #2d3e50;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .container input {
+            padding: 12px 14px;
+            border-radius: 6px;
+            border: 1px solid #bfc9d1;
+            font-size: 16px;
+            background: #f8fafc;
+            transition: border 0.2s;
+            margin-bottom: 2px;
+        }
+        .container input:focus {
+            border: 1.5px solid #3498db;
+            outline: none;
+            background: #f0f8ff;
+        }
+        .container button[type="submit"] {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 1px 4px rgba(52,152,219,0.08);
+            transition: background 0.18s;
+        }
+        .container button[type="submit"]:hover {
+            background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%);
+        }
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #3498db;
+            font-size: 15px;
+            padding: 0 4px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 2px;
+        }
+        .message {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            min-height: 18px;
+        }
+        .success {
+            color: #27ae60;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+    </style>
+    <script>
+        // Password show/hide toggle
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const toggle = document.getElementById('togglePwd');
+            if (pwd.type === "password") {
+                pwd.type = "text";
+                toggle.textContent = "Hide";
+            } else {
+                pwd.type = "password";
+                toggle.textContent = "Show";
+            }
+        }
+        // Simple password strength check
+        function checkStrength() {
+            const pwd = document.getElementById('password').value;
+            const msg = document.getElementById('pwd-strength');
+            if (pwd.length === 0) {
+                msg.textContent = "";
+                return;
+            }
+            if (pwd.length < 6) {
+                msg.textContent = "Password too short";
+                msg.className = "message";
+            } else if (!/[A-Z]/.test(pwd) || !/[0-9]/.test(pwd)) {
+                msg.textContent = "Use at least 1 uppercase letter and 1 number";
+                msg.className = "message";
+            } else {
+                msg.textContent = "Strong password";
+                msg.className = "message success";
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Create an Account</h2>
+    <form method="POST" autocomplete="off">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <div class="input-group">
+            <input type="password" name="password" id="password" placeholder="Password" required oninput="checkStrength()">
+            <button type="button" class="toggle-password" id="togglePwd" onclick="togglePassword()">Show</button>
+        </div>
+        <div id="pwd-strength" class="message"></div>
+        <button type="submit">Register</button>
+    </form>
+    <div class="login-link">
+        Already have an account? <a href="/login">Login</a>
+    </div>
+</div>

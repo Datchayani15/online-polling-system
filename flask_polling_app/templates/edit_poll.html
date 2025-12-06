@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Poll</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .option-btn.delete {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            margin-left: 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .option-btn.delete:hover {
+            background: #c0392b;
+        }
+        .add-option-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        .add-option-btn:hover {
+            background: #217dbb;
+        }
+        #new-options-list > div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        #new-options-list input[type="text"] {
+            flex: 1;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        function addNewOption() {
+            const optionsDiv = document.getElementById('new-options-list');
+            const input = document.createElement('input');
+            input.name = "new_options";
+            input.type = "text";
+            input.required = false;
+            input.placeholder = "New option";
+            // Add delete button
+            const btn = document.createElement('button');
+            btn.type = "button";
+            btn.innerText = "Delete";
+            btn.className = "option-btn delete";
+            btn.onclick = function() { optionsDiv.removeChild(wrapper); };
+            // Wrap input and button
+            const wrapper = document.createElement('div');
+            wrapper.appendChild(input);
+            wrapper.appendChild(btn);
+            optionsDiv.appendChild(wrapper);
+        }
+        function deleteNewOption(btn) {
+            btn.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+<h2>Edit Poll</h2>
+<form method="POST">
+Title: <input name="title" value="{{ poll.title }}" required><br>
+Description: <textarea name="description">{{ poll.description }}</textarea><br>
+
+<h3>Existing Options:</h3>
+{% for opt in options %}
+<input name="option_{{ opt.id }}" value="{{ opt.option_text }}" required>
+<button name="delete_{{ opt.id }}" type="submit" class="option-btn delete">Delete</button><br>
+{% endfor %}
+
+<h3>Add New Options:</h3>
+<div id="new-options-list">
+    <div>
+        <input name="new_options" type="text" placeholder="New option">
+        <button type="button" class="option-btn delete" onclick="deleteNewOption(this)">Delete</button>
+    </div>
+    <div>
+        <input name="new_options" type="text" placeholder="New option">
+        <button type="button" class="option-btn delete" onclick="deleteNewOption(this)">Delete</button>
+    </div>
+    <div>
+        <input name="new_options" type="text" placeholder="New option">
+        <button type="button" class="option-btn delete" onclick="deleteNewOption(this)">Delete</button>
+    </div>
+</div>
+<button type="button" class="add-option-btn" onclick="addNewOption()">+ Add Option</button><br><br>
+<button type="submit">Update Poll</button>
+</form>
+    <a href="/dashboard">Back to Dashboard</a>

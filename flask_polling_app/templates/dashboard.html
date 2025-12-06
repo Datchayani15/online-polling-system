@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* ===== Body ===== */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            /* Professional gradient overlay with background image */
+            background: linear-gradient(rgba(246, 241, 241, 0.25), rgba(0,0,0,0.35)),
+                        url('https://www.shutterstock.com/image-photo/electronic-internet-voting-concept-evoting-260nw-2232562143.jpg') 
+                        
+                        no-repeat center center fixed;
+            background-size: cover;
+            
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 720px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.345);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 36px;
+            color: #2c3e50;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 0 8px;
+            box-shadow: 0 3px 12px rgba(52,152,219,0.15);
+            transition: all 0.2s ease-in-out;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%);
+            box-shadow: 0 5px 18px rgba(52,152,219,0.2);
+        }
+
+        /* ===== Poll Card ===== */
+        .poll {
+            background: #fefefe65;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 32px;
+            margin-bottom: 40px;
+            transition: transform 0.2s;
+        }
+        .poll:hover {
+            transform: translateY(-3px);
+        }
+
+        .poll h3 {
+            margin: 0 0 12px 0;
+            color: #34495e;
+            font-size: 21px;
+            font-weight: 600;
+        }
+        .poll p {
+            margin: 0 0 18px 0;
+            color: #0d0e0e;
+            font-size: 15px;
+        }
+
+        .poll-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center; /* Align all buttons vertically */
+}
+
+.poll-buttons form {
+    display: inline-flex; /* Makes the form behave like a button inline */
+    margin: 0;
+}
+
+.poll-buttons form button {
+    display: inline-flex; /* Align content properly */
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 18px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.18s, box-shadow 0.18s;
+    box-shadow: 0 1px 4px rgba(52,152,219,0.06);
+    background: linear-gradient(90deg, #e74c3c 60%, #ff7675 100%);
+    color: #fff;
+}
+
+
+        .option-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 0 20px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            background: #eee;
+            color: #222;
+        }
+
+        /* ===== Specific Buttons ===== */
+        .option-btn.vote { background: linear-gradient(90deg, #2ecc71 60%, #27ae60 100%); color: #fff; }
+        .option-btn.vote:hover { background: linear-gradient(90deg, #27ae60 60%, #2ecc71 100%); }
+        .option-btn.results { background: linear-gradient(90deg, #f39c12 60%, #f7b731 100%); color: #fff; }
+        .option-btn.results:hover { background: linear-gradient(90deg, #e67e22 60%, #f7b731 100%); }
+        .option-btn.edit { background: linear-gradient(90deg, #2980b9 60%, #6dd5fa 100%); color: #fff; }
+        .option-btn.edit:hover { background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%); }
+        .option-btn.delete { background: linear-gradient(90deg, #e74c3c 60%, #ff7675 100%); color: #fff; }
+        .option-btn.delete:hover { background: linear-gradient(90deg, #c0392b 60%, #ff7675 100%); }
+
+        form button {
+            width: auto;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 600px) {
+            .container { padding: 24px 4vw; }
+            .poll { padding: 20px 4vw; }
+            .poll-buttons { flex-direction: column; gap: 10px; }
+            .option-btn, .btn, .poll-buttons form button { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user.username }}</h1>
+
+        {% if session['role'] == 'admin' %}
+        <div style="text-align:center; margin-bottom:38px;">
+            <a class="btn" href="/create_poll">Create New Poll</a>
+        </div>
+        {% endif %}
+
+        {% for poll in polls %}
+        <div class="poll">
+            <h3>{{ poll.title }}</h3>
+            <p>{{ poll.description }}</p>
+            <div class="poll-buttons">
+                <a class="option-btn vote" href="/vote/{{ poll.id }}">Vote</a>
+                <a class="option-btn results" href="/results/{{ poll.id }}">Results</a>
+                {% if session['role'] == 'admin' %}
+                <a class="option-btn edit" href="/edit_poll/{{ poll.id }}">Edit</a>
+                <form action="/delete_poll/{{ poll.id }}" method="POST">
+                    <button class="option-btn delete" type="submit">Delete</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div style="text-align:center; margin-top:38px;">
+            <a class="btn" href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

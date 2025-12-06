@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 370px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 36px 36px 28px 36px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13), 0 1.5px 8px rgba(44, 62, 80, 0.08);
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 28px;
+            color: #2d3e50;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .container input {
+            padding: 12px 14px;
+            border-radius: 6px;
+            border: 1px solid #bfc9d1;
+            font-size: 16px;
+            background: #f8fafc;
+            transition: border 0.2s;
+            margin-bottom: 2px;
+        }
+        .container input:focus {
+            border: 1.5px solid #3498db;
+            outline: none;
+            background: #f0f8ff;
+        }
+        .container button[type="submit"] {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 1px 4px rgba(52,152,219,0.08);
+            transition: background 0.18s;
+        }
+        .container button[type="submit"]:hover {
+            background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%);
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Login to Your Account</h2>
+    <form method="POST" autocomplete="off">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div class="register-link">
+        Don't have an account? <a href="/register">Register</a>
+    </div>
+</div>
+</body>

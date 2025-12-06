@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Poll</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 430px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 36px 36px 24px 36px;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13), 0 1.5px 8px rgba(44, 62, 80, 0.08);
+            transition: box-shadow 0.2s;
+        }
+        .container:hover {
+            box-shadow: 0 12px 36px rgba(52, 152, 219, 0.18), 0 2px 12px rgba(44, 62, 80, 0.12);
+        }
+        .container h2 {
+            margin-bottom: 22px;
+            color: #2d3e50;
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .container label {
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .container input, .container textarea {
+            width: 100%;
+            margin-bottom: 14px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            border: 1px solid #bfc9d1;
+            font-size: 15px;
+            background: #f8fafc;
+            transition: border 0.2s;
+        }
+        .container input:focus, .container textarea:focus {
+            border: 1.5px solid #3498db;
+            outline: none;
+            background: #f0f8ff;
+        }
+        .container textarea {
+            resize: vertical;
+            min-height: 60px;
+            max-height: 180px;
+        }
+        #options-list > div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+        #options-list input[type="text"] {
+            flex: 1;
+            padding: 7px 8px;
+            font-size: 15px;
+        }
+        .option-btn.delete {
+            background: linear-gradient(90deg, #e74c3c 60%, #ff7675 100%);
+            color: #fff;
+            border: none;
+            padding: 5px 14px;
+            margin-left: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(231,76,60,0.08);
+            transition: background 0.18s;
+        }
+        .option-btn.delete:hover {
+            background: linear-gradient(90deg, #c0392b 60%, #ff7675 100%);
+        }
+        .add-option-btn {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(52,152,219,0.08);
+            transition: background 0.18s;
+        }
+        .add-option-btn:hover {
+            background: linear-gradient(90deg, #217dbb 60%, #6dd5fa 100%);
+        }
+        .container form > button[type="submit"] {
+            margin-top: 18px;
+            background: linear-gradient(90deg, #2ecc71 60%, #27ae60 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(46,204,113,0.08);
+            transition: background 0.18s;
+            width: 100%;
+        }
+        .container form > button[type="submit"]:hover {
+            background: linear-gradient(90deg, #27ae60 60%, #2ecc71 100%);
+        }
+        a {
+            display: block;
+            margin-top: 18px;
+            color: #3498db;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #217dbb;
+        }
+    </style>
+    <script>
+        // Add/Remove option fields dynamically
+        function addOption() {
+            const optionsDiv = document.getElementById('options-list');
+            const input = document.createElement('input');
+            input.name = "options";
+            input.required = true;
+            input.type = "text";
+            input.placeholder = "Option";
+            input.style.marginRight = "5px";
+            // Add delete button
+            const btn = document.createElement('button');
+            btn.type = "button";
+            btn.innerText = "Delete";
+            btn.onclick = function() { optionsDiv.removeChild(wrapper); };
+            btn.className = "option-btn delete";
+            // Wrap input and button
+            const wrapper = document.createElement('div');
+            wrapper.style.marginBottom = "8px";
+            wrapper.appendChild(input);
+            wrapper.appendChild(btn);
+            optionsDiv.appendChild(wrapper);
+        }
+        function deleteOption(btn) {
+            btn.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Create Poll</h2>
+    <form method="POST">
+        <label for="title">Title:</label>
+        <input name="title" id="title" required placeholder="Enter poll title">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" placeholder="Describe your poll (optional)"></textarea>
+        <label>Options:</label>
+        <div id="options-list">
+            <div>
+                <input name="options" required type="text" placeholder="Option" style="margin-right:5px;">
+                <button type="button" class="option-btn delete" onclick="deleteOption(this)">Delete</button>
+            </div>
+            <div>
+                <input name="options" required type="text" placeholder="Option" style="margin-right:5px;">
+                <button type="button" class="option-btn delete" onclick="deleteOption(this)">Delete</button>
+            </div>
+            <div>
+                <input name="options" required type="text" placeholder="Option" style="margin-right:5px;">
+                <button type="button" class="option-btn delete" onclick="deleteOption(this)">Delete</button>
+            </div>
+        </div>
+        <button type="button" class="add-option-btn" onclick="addOption()">+ Add Option</button>
+        <button type="submit">Create Poll</button>
+    </form>
+    <a href="/dashboard">← Back to Dashboard</a>
+</div>
+</body>

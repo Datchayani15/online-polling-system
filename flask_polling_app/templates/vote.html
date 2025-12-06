@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Vote: {{ poll.title }}</h2>
+    <form method="POST">
+        {% for opt in options %}
+        <div class="option">
+            <input type="radio" name="option" value="{{ opt.id }}" required> {{ opt.option_text }}
+        </div>
+        {% endfor %}
+        <button type="submit">Submit Vote</button>
+    </form>
+    <a href="/dashboard">Back to Dashboard</a>
+</div>
+</body>
+</html>
